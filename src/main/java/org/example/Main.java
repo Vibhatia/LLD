@@ -25,11 +25,16 @@ import org.example.parkinglot.payment.startegy.ParkingSpotLookupStrategy;
 import org.example.parkinglot.payment.startegy.RandomLookup;
 import org.example.strategypattern.strategy.PaymentProcess;
 import org.example.strategypattern.strategy.strategyImpl.CreditCard;
+import org.example.tictactoe.Board;
+import org.example.tictactoe.Game;
+import org.example.tictactoe.HumanPlayer;
+import org.example.tictactoe.Players;
 
 import java.sql.SQLOutput;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
@@ -58,54 +63,50 @@ public class Main {
 
 
         //Parking lot
-        ParkingSpotLookupStrategy strategy = new RandomLookup();
-
-        Map<VehicleType, ParkingSpotManagers> levelOneManagerss = new HashMap<>();
-        levelOneManagerss.put(VehicleType.TWO_WHEEELER,
-                new TwoWheelerSpotManagers(List.of(new ParkingSpot("L1-S1"),
-                        new ParkingSpot("L1-S2")), strategy));
-
-
-        ParkingLevel level1 = new ParkingLevel(
-                1, levelOneManagerss
-        );
+//        ParkingSpotLookupStrategy strategy = new RandomLookup();
 //
-//        Map<VehicleType, ParkingSpotManagers> levelTwoManagerss = new HashMap<>();
-//        levelTwoManagerss.put(VehicleType.TWO_WHEEELER,
-//                new TwoWheelerSpotManagers(List.of(new ParkingSpot("L2-S1")), strategy));
-//
-//        levelTwoManagerss.put(VehicleType.FOUR_WHEELER,
-//                new FourWheelerSpotManagers(List.of(new ParkingSpot("L2-S2"),
-//                        new ParkingSpot("L2-S3")), strategy));
+//        Map<VehicleType, ParkingSpotManagers> levelOneManagerss = new HashMap<>();
+//        levelOneManagerss.put(VehicleType.TWO_WHEEELER,
+//                new TwoWheelerSpotManagers(List.of(new ParkingSpot("L1-S1"),
+//                        new ParkingSpot("L1-S2")), strategy));
 //
 //
-//        ParkingLevel level2 = new ParkingLevel(
-//                2, levelTwoManagerss
+//        ParkingLevel level1 = new ParkingLevel(
+//                1, levelOneManagerss
 //        );
+//
+//
+//        ParkingBuilding parkingBuilding =
+//                new ParkingBuilding(
+//                        List.of(level1),
+//                        new CostComputation(new FixedPriceStrategy())
+//                );
+//
+//        ParkingLot parkingLot = new ParkingLot(
+//                parkingBuilding,
+//                new EntranceGate(),
+//                new ExitGate(new CostComputation(new FixedPriceStrategy()))
+//        );
+//
+//
+//        Vehicle bike = new Vehicle("BIKE-101", VehicleType.TWO_WHEEELER);
+//
+//        Ticket t1 = parkingLot.vehicleArrives(bike);
+//
+//
+//        parkingLot.vehicleExits(t1, new CashPayment());
 
-        ParkingBuilding parkingBuilding =
-                new ParkingBuilding(
-                        List.of(level1),
-//                                level2),
-                        new CostComputation(new FixedPriceStrategy())
-                );
-
-        ParkingLot parkingLot = new ParkingLot(
-                parkingBuilding,
-                new EntranceGate(),
-                new ExitGate(new CostComputation(new FixedPriceStrategy()))
-        );
+        // Tic Tac Toe
 
 
-        Vehicle bike = new Vehicle("BIKE-101", VehicleType.TWO_WHEEELER);
-//        Vehicle car = new Vehicle("CAR-201", VehicleType.FOUR_WHEELER);
-
-        Ticket t1 = parkingLot.vehicleArrives(bike);
-//        Ticket t2 = parkingLot.vehicleArrives(car);
-
-        parkingLot.vehicleExits(t1, new CashPayment());
-//        parkingLot.vehicleExits(t2, new UPIPayment());
-
+        Scanner scanner = new Scanner(System.in);
+        Board board = new Board(3);
+        Players[] players = {
+                new HumanPlayer("Player 1", 'X', scanner),
+                new HumanPlayer("Player 2", '0', scanner)
+        };
+        Game game = new Game(board, players);
+        game.play();
 
     }
 }
